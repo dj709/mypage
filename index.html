@@ -1,14 +1,634 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой учебный проект</title>
+    <title>АкваСервис - Доставка воды в офис</title>
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9fc;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1, h2, h3 {
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #0052a3;
+        }
+        
+        /* Навигация */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #0066cc;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Страницы */
+        .page {
+            display: none;
+            padding: 60px 0;
+            min-height: calc(100vh - 70px);
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Главная страница */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230066cc" opacity="0.1"/></svg>');
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 60px;
+        }
+        
+        .feature {
+            flex: 0 0 30%;
+            text-align: center;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .feature i {
+            font-size: 40px;
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+        
+        /* Страница услуг */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-img {
+            height: 200px;
+            background-color: #e6f2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .service-content {
+            padding: 25px;
+        }
+        
+        /* Страница контактов */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icon {
+            font-size: 20px;
+            color: #0066cc;
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* Страница о компании */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            background-color: #e6f2ff;
+            border-radius: 10px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 60px;
+        }
+        
+        .stat {
+            text-align: center;
+            flex: 0 0 22%;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 40px;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .feature {
+                flex: 0 0 100%;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .stat {
+                flex: 0 0 48%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Тут будет нормальный сайт</h1>
-    <p>Самостоятельно создать структуру сайта: каталоги pages , img , style</p>
-    <p>Создать 3-4 веб-страницы с использованием стилей CSS</p>
-    <p>Добавить эффекты или формы JS</p>
+    <!-- Навигация -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">АкваСервис</div>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="#" data-page="home">Главная</a></li>
+                <li><a href="#" data-page="services">Услуги</a></li>
+                <li><a href="#" data-page="about">О компании</a></li>
+                <li><a href="#" data-page="contacts">Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Главная страница -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <h1>Доставка воды в офис</h1>
+                <p>Обеспечим ваш офис чистой питьевой водой с регулярной доставкой. Качество, надежность и удобство для вашего бизнеса.</p>
+                <a href="#" class="btn" data-page="services">Наши услуги</a>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="features">
+                <div class="feature">
+                    <i>💧</i>
+                    <h3>Качественная вода</h3>
+                    <p>Только проверенные поставщики и сертифицированная продукция</p>
+                </div>
+                <div class="feature">
+                    <i>🚚</i>
+                    <h3>Быстрая доставка</h3>
+                    <p>Доставка в удобное для вас время по установленному графику</p>
+                </div>
+                <div class="feature">
+                    <i>💰</i>
+                    <h3>Доступные цены</h3>
+                    <p>Гибкая система скидок для постоянных клиентов</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница услуг -->
+    <section id="services" class="page">
+        <div class="container">
+            <h2>Наши услуги</h2>
+            <p>Мы предлагаем комплексные решения по водоснабжению офисов любого размера.</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img">
+                        <span style="font-size: 60px;">💧</span>
+                    </div>
+                    <div class="service-content">
+                        <h3>Доставка бутилированной воды</h3>
+                        <p>Регулярная поставка воды в бутылях 19 л с установкой и обслуживанием кулеров.</p>
+                        <a href="#" class="btn" data-page="contacts">Заказать</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img">
+                        <span style="font-size: 60px;">⚙️</span>
+                    </div>
+                    <div class="service-content">
+                        <h3>Аренда и обслуживание кулеров</h3>
+                        <p>Предоставление в аренду кулеров различного типа с регулярным сервисным обслуживанием.</p>
+                        <a href="#" class="btn" data-page="contacts">Заказать</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img">
+                        <span style="font-size: 60px;">🔧</span>
+                    </div>
+                    <div class="service-content">
+                        <h3>Установка фильтров</h3>
+                        <p>Монтаж систем фильтрации воды для подключения к водопроводу.</p>
+                        <a href="#" class="btn" data-page="contacts">Заказать</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img">
+                        <span style="font-size: 60px;">☕</span>
+                    </div>
+                    <div class="service-content">
+                        <h3>Поставка сопутствующих товаров</h3>
+                        <p>Одноразовые стаканчики, чай, кофе и другие расходные материалы.</p>
+                        <a href="#" class="btn" data-page="contacts">Заказать</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница о компании -->
+    <section id="about" class="page">
+        <div class="container">
+            <h2>О нашей компании</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Компания "АкваСервис" работает на рынке доставки воды с 2010 года. За это время мы заслужили доверие сотен компаний в нашем регионе.</p>
+                    <p>Наша миссия - обеспечивать бизнес-клиентов качественной питьевой водой, создавая комфортные условия для работы сотрудников.</p>
+                    <p>Мы тщательно отбираем поставщиков воды, регулярно проводим лабораторные исследования и следим за соблюдением всех санитарных норм.</p>
+                    <p>Наша команда - это профессионалы с многолетним опытом в сфере логистики и обслуживания клиентов.</p>
+                </div>
+                <div class="about-image">
+                    <span style="font-size: 80px;">🏢</span>
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">12+</div>
+                    <div class="stat-text">Лет на рынке</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-text">Постоянных клиентов</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">10000+</div>
+                    <div class="stat-text">Доставок в месяц</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-text">Поддержка клиентов</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница контактов -->
+    <section id="contacts" class="page">
+        <div class="container">
+            <h2>Свяжитесь с нами</h2>
+            <p>Мы готовы ответить на все ваши вопросы и предложить оптимальное решение для вашего офиса.</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <h3>Телефон</h3>
+                            <p>+7 (495) 123-45-67</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>info@akvaservice.ru</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h3>Адрес</h3>
+                            <p>г. Москва, ул. Примерная, д. 123, оф. 456</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div>
+                            <h3>Режим работы</h3>
+                            <p>Пн-Пт: 9:00 - 18:00<br>Сб-Вс: выходной</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" placeholder="Опишите ваши потребности..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>АкваСервис</h3>
+                    <p>Доставка воды в офис с 2010 года. Качество, надежность, удобство.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Услуги</h3>
+                    <ul style="list-style: none;">
+                        <li><a href="#" data-page="services" style="color: white; text-decoration: none;">Доставка воды</a></li>
+                        <li><a href="#" data-page="services" style="color: white; text-decoration: none;">Аренда кулеров</a></li>
+                        <li><a href="#" data-page="services" style="color: white; text-decoration: none;">Установка фильтров</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>+7 (495) 123-45-67<br>info@akvaservice.ru<br>г. Москва, ул. Примерная, д. 123</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 АкваСервис. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Навигация между страницами
+        document.querySelectorAll('.nav-links a, .btn[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                
+                // Скрыть все страницы
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Показать выбранную страницу
+                document.getElementById(pageId).classList.add('active');
+                
+                // Закрыть мобильное меню, если оно открыто
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+        
+        // Мобильное меню
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Обработка формы
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо за вашу заявку! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
